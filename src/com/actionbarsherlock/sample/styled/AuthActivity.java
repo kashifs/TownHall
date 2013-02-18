@@ -13,14 +13,10 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
-
-
-
-
 
 
 public class AuthActivity extends Activity {
@@ -78,7 +74,7 @@ public class AuthActivity extends Activity {
 	 * Kick off the activity to display 
 	 */
 	private void startFirstActivity() {
-		System.out.println("STARTING FIRST ACTIVITY!");
+		Log.i(TAG, "Starting first activity");
 		Intent i = new Intent(this, TweetsActivity.class);
 		startActivityForResult(i, Constants.ACTIVITY_LATEST_TWEETS);
 	}
@@ -118,7 +114,10 @@ public class AuthActivity extends Activity {
 
 			try {
 				consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-				provider = new DefaultOAuthProvider("http://twitter.com/oauth/request_token", "http://twitter.com/oauth/access_token", "http://twitter.com/oauth/authorize");
+				provider = new DefaultOAuthProvider(
+						"http://twitter.com/oauth/request_token", 
+						"http://twitter.com/oauth/access_token", 
+						"http://twitter.com/oauth/authorize");
 				String authUrl = provider.retrieveRequestToken(consumer, CALLBACK_URL);
 
 				setConsumerProvider();
@@ -146,7 +145,7 @@ public class AuthActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		System.out.println("RESUMING!!");
+		Log.i(TAG, "We\'re resuming");
 		if(this.getIntent() != null && this.getIntent().getData() != null) {
 			new StartActivity().execute(this.getIntent().getData().toString());
 		}
@@ -218,7 +217,7 @@ public class AuthActivity extends Activity {
 		}
 
 		CommonsHttpOAuthConsumer c = ((TwitterApplication)getApplication()).getConsumer();
-		
+
 
 		if (c != null) {
 			consumer = c;

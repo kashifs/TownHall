@@ -47,6 +47,8 @@
         </activity>
         <activity android:name=".FragmentLayout" >
         </activity>
+        <activity android:name=".DetailsActivity" >
+        </activity>
     </application>
 
 </manifest>
