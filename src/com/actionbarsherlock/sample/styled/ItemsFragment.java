@@ -22,17 +22,6 @@ public class ItemsFragment extends SherlockListFragment {
 		setListAdapter(new TwitterListAdapter(getActivity(), TweetsActivity.getJobs()));
 		
 		
-		// Checking the build version for the sake of UI
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-//        	// list with static array of items
-//        	setListAdapter(new ArrayAdapter<String>(getActivity(),
-//                    android.R.layout.simple_list_item_1, TweetsActivity.getTweets()));
-//        } else {
-//     // list with static array of items
-//        setListAdapter(new ArrayAdapter<String>(getActivity(),
-//               android.R.layout.simple_list_item_activated_1, TweetsActivity.getTweets()));
-//        }
-
 		// Check to see if we have a frame in which to embed the details
 		// fragment directly in the containing UI.
 		View detailsFrame = getActivity().findViewById(R.id.details);
@@ -96,7 +85,6 @@ public class ItemsFragment extends SherlockListFragment {
 			Intent intent = new Intent();
 			intent.setClass(getActivity(), DetailsActivity.class);
 			intent.putExtra("index", index);
-			intent.putExtra("locations", TweetsActivity.getLocations());
 			startActivity(intent);
 		}
 	}

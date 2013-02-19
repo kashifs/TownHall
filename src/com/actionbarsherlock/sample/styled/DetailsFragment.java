@@ -55,9 +55,6 @@ public class DetailsFragment extends SherlockFragment {
 		int index = getShownIndex();
 		
 		
-		
-		
-		
 		String[] locations = TweetsActivity.getLocations();
 
 		if(locations[index] == null)

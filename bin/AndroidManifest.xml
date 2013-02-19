@@ -19,8 +19,7 @@
         android:name=".TwitterApplication"
         android:icon="@drawable/icon"
         android:label="@string/application_name"
-        android:theme="@style/Theme.AndroidDevelopers"
-         >
+        android:theme="@style/Theme.AndroidDevelopers" >
         <activity
             android:name=".AuthActivity"
             android:label="@string/activity_name"
@@ -41,9 +40,11 @@
                     android:scheme="callback" />
             </intent-filter>
         </activity>
-        <activity android:name=".TweetsActivity" >
+        <activity
+            android:name=".StyledActivity"
+            android:launchMode="singleTop" >
         </activity>
-        <activity android:name=".StyledActivity" >
+        <activity android:name=".TweetsActivity" >
         </activity>
         <activity android:name=".FragmentLayout" >
         </activity>
