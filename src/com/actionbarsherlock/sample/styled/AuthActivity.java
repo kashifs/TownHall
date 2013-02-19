@@ -218,7 +218,6 @@ public class AuthActivity extends Activity {
 
 		CommonsHttpOAuthConsumer c = ((TwitterApplication)getApplication()).getConsumer();
 
-
 		if (c != null) {
 			consumer = c;
 		}

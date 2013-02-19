@@ -81,11 +81,11 @@ public class RoundedColourFragmentList extends SherlockListFragment {
 		View v = inflater.inflate(R.layout.fragment_pager_list, container, false);
 		
 
-	    setListAdapter(new TwitterListAdapter(getActivity(), TweetsActivity.getJobs()));
+	    setListAdapter(new TwitterListAdapter(getActivity(), TweetReader.getJobs()));
 
 
 		
-		TwitterListAdapter mAdapter = new TwitterListAdapter(getActivity(), TweetsActivity.getJobs());
+		TwitterListAdapter mAdapter = new TwitterListAdapter(getActivity(), TweetReader.getJobs());
 		setListAdapter(mAdapter);
 
 

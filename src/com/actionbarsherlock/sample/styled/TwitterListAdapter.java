@@ -54,7 +54,7 @@ public class TwitterListAdapter extends ArrayAdapter<JSONObject> {
 
 		isRight = !isRight;
 
-		Log.d(TAG, jsonImageText.toString());
+//		Log.d(TAG, jsonImageText.toString());
 
 		try {
 			String tweet = (String)jsonImageText.get("tweet");

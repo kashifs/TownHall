@@ -91,7 +91,7 @@ public class TopicListFragment extends SherlockListFragment {
 			Intent intent = new Intent();
 			intent.setClass(getActivity(), DetailsActivity.class);
 			intent.putExtra("index", index);
-			intent.putExtra("locations", TweetsActivity.getLocations());
+			intent.putExtra("locations", TweetReader.getLocations());
 			startActivity(intent);
 		}
 	}

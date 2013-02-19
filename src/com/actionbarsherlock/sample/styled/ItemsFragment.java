@@ -19,7 +19,7 @@ public class ItemsFragment extends SherlockListFragment {
 		super.onActivityCreated(savedInstanceState);
 
 
-		setListAdapter(new TwitterListAdapter(getActivity(), TweetsActivity.getJobs()));
+		setListAdapter(new TwitterListAdapter(getActivity(), TweetReader.getJobs()));
 		
 		
 		// Check to see if we have a frame in which to embed the details
@@ -35,6 +35,8 @@ public class ItemsFragment extends SherlockListFragment {
 		if (isDualPane) {
 			// In dual-pane mode, the list view highlights the selected item.
 			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			
+//			detailsFrame.setVisibility(View.GONE);
 
 			showDetails(mCurCheckPosition);
 		}

@@ -55,7 +55,7 @@ public class DetailsFragment extends SherlockFragment {
 		int index = getShownIndex();
 		
 		
-		String[] locations = TweetsActivity.getLocations();
+		String[] locations = TweetReader.getLocations();
 
 		if(locations[index] == null)
 			text.setText((index + 1) + ".)" + " This tweet is from " + holder);

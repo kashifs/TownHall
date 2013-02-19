@@ -22,7 +22,11 @@ import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -44,6 +48,9 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+
+
 
 		setContentView(R.layout.frag_layout);
 
@@ -114,7 +121,6 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	}
 
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-		//		Toast.makeText(getApplicationContext(), "onTabSelected: " + tab.getText(), Toast.LENGTH_SHORT).show();
 		Log.i(TAG, "onTabSelected: " + tab.getText());
 
 		String tabName = (String) tab.getText();
@@ -124,11 +130,12 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 		} else if(tabName.equalsIgnoreCase("townhall")) {
 
 		} else if(tabName.equalsIgnoreCase("filter")) {
-			
-			Intent intent = new Intent(this, DetailsActivity.class);
-			intent.putExtra("index", 0);
-//			intent.putExtra("locations", TweetsActivity.getLocations());
-			startActivity(intent);
+
+
+
+			//			Intent intent = new Intent(this, DetailsActivity.class);
+			//			intent.putExtra("index", 0);
+			//			startActivity(intent);
 
 		} else
 			Log.e(TAG, "We\'ve reached a place that we shouldn\'t have");
@@ -136,14 +143,13 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	}
 
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-		//		Toast.makeText(getApplicationContext(), "onTabUnselected: " + tab.getText(), Toast.LENGTH_SHORT).show();
 		Log.i(TAG, "onTabUnselected: " + tab.getText());
 	}
 
 	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 		//		Toast.makeText(getApplicationContext(), "onTabReselected: " + tab.getText(), Toast.LENGTH_SHORT).show();
 		Log.i(TAG, "onTabReselected: " + tab.getText());
-		
+
 		String tabName = (String) tab.getText();
 
 		if(tabName.equalsIgnoreCase("profile")) {
@@ -151,10 +157,9 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 		} else if(tabName.equalsIgnoreCase("townhall")) {
 
 		} else if(tabName.equalsIgnoreCase("filter")) {
-			
+
 			Intent intent = new Intent(this, DetailsActivity.class);
 			intent.putExtra("index", 0);
-//			intent.putExtra("locations", TweetsActivity.getLocations());
 			startActivity(intent);
 
 		} else
