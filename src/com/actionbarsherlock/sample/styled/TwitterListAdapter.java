@@ -1,18 +1,13 @@
 package com.actionbarsherlock.sample.styled;
 
-import java.net.URL;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.os.Handler;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +16,14 @@ import android.widget.TextView;
 
 public class TwitterListAdapter extends ArrayAdapter<JSONObject> {
 
+	private static final String TAG = "TwitterListAdapter";
+	
 	private static boolean isRight = true;
-
+	
 	private TextView textView;
 
 	public TwitterListAdapter(Activity activity, List<JSONObject> imageAndTexts) {
 		super(activity, 0, imageAndTexts);
-
-
 	}
 
 
@@ -50,7 +45,8 @@ public class TwitterListAdapter extends ArrayAdapter<JSONObject> {
 
 		// Set the text on the TextView
 		textView = (TextView) rowView.findViewById(R.id.job_text);
-		//		textView.setBackgroundResource(R.drawable.speech_bubble_right);
+		
+
 		if(isRight)
 			textView.setBackgroundResource(R.drawable.blue_speech_bubble_right);
 		else
@@ -58,12 +54,7 @@ public class TwitterListAdapter extends ArrayAdapter<JSONObject> {
 
 		isRight = !isRight;
 
-		System.out.println(jsonImageText.toString());
-
-		
-
-
-
+		Log.d(TAG, jsonImageText.toString());
 
 		try {
 			String tweet = (String)jsonImageText.get("tweet");
@@ -71,7 +62,7 @@ public class TwitterListAdapter extends ArrayAdapter<JSONObject> {
 			String date = (String)jsonImageText.get("tweetDate");
 
 
-			if (date.length()>0){
+			if (date.length() > 0){
 				String latest = tweet + "<br><br><i>" + auth + " - " + date + "</i>";
 				textView.setText(Html.fromHtml(latest));
 			} else {
@@ -81,12 +72,11 @@ public class TwitterListAdapter extends ArrayAdapter<JSONObject> {
 
 		} catch (JSONException e) {
 			textView.setText("JSON Exception");
-
 		}
 
 
 		return rowView;
 	} 
-   
+
 
 }

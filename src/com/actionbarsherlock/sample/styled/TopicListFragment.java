@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class ItemsFragment extends SherlockListFragment {
+public class TopicListFragment extends SherlockListFragment {
 	boolean isDualPane;
 	int mCurCheckPosition = 0;
 
@@ -19,19 +19,14 @@ public class ItemsFragment extends SherlockListFragment {
 		super.onActivityCreated(savedInstanceState);
 
 
-		setListAdapter(new TwitterListAdapter(getActivity(), TweetsActivity.getJobs()));
+		//		setListAdapter(new TwitterListAdapter(getActivity(), TweetsActivity.getJobs()));
+
 		
-		
-		// Checking the build version for the sake of UI
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-//        	// list with static array of items
-//        	setListAdapter(new ArrayAdapter<String>(getActivity(),
-//                    android.R.layout.simple_list_item_1, TweetsActivity.getTweets()));
-//        } else {
-//     // list with static array of items
-//        setListAdapter(new ArrayAdapter<String>(getActivity(),
-//               android.R.layout.simple_list_item_activated_1, TweetsActivity.getTweets()));
-//        }
+		String[] topics = {"Sports", "Nightlife", "Politics", "Religion", "News", "Education"};
+		setListAdapter(new ArrayAdapter<String>(getActivity(),
+				android.R.layout.simple_list_item_1, topics));
+
+
 
 		// Check to see if we have a frame in which to embed the details
 		// fragment directly in the containing UI.

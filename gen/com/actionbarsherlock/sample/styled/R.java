@@ -1000,11 +1000,11 @@ containing a value of this type.
         public static final int abs__title=0x7f04001b;
         public static final int abs__titleDivider=0x7f04001c;
         public static final int abs__up=0x7f04000b;
-        public static final int details=0x7f040034;
+        public static final int details=0x7f040033;
         public static final int disableHome=0x7f040009;
         public static final int edit_query=0x7f040027;
         public static final int homeAsUp=0x7f040006;
-        public static final int items=0x7f040033;
+        public static final int items=0x7f040034;
         public static final int job_text=0x7f040038;
         public static final int last_build_stat=0x7f040037;
         public static final int listMode=0x7f040002;
@@ -1053,15 +1053,16 @@ containing a value of this type.
         public static final int abs__search_dropdown_item_icons_2line=0x7f030014;
         public static final int abs__search_view=0x7f030015;
         public static final int abs__simple_dropdown_hint=0x7f030016;
-        public static final int frag_layout=0x7f030017;
-        public static final int fragment_pager_list=0x7f030018;
-        public static final int fragment_tabs_pager=0x7f030019;
-        public static final int image_text_layout=0x7f03001a;
-        public static final int indeterminate_progress_action=0x7f03001b;
-        public static final int main=0x7f03001c;
-        public static final int main_oauth=0x7f03001d;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001e;
-        public static final int sherlock_spinner_item=0x7f03001f;
+        public static final int filter_layout=0x7f030017;
+        public static final int frag_layout=0x7f030018;
+        public static final int fragment_pager_list=0x7f030019;
+        public static final int fragment_tabs_pager=0x7f03001a;
+        public static final int image_text_layout=0x7f03001b;
+        public static final int indeterminate_progress_action=0x7f03001c;
+        public static final int main=0x7f03001d;
+        public static final int main_oauth=0x7f03001e;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001f;
+        public static final int sherlock_spinner_item=0x7f030020;
     }
     public static final class menu {
         public static final int main_menu=0x7f0c0000;

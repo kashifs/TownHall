@@ -16,27 +16,26 @@
 
 package com.actionbarsherlock.sample.styled;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class StyledActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
+	private static final String TAG = "StyledActivity";
+
 
 	private final Handler handler = new Handler();
-	private RoundedColourFragmentList leftFrag, rightFrag;
-	private boolean useLogo = false;
-	private boolean showHomeUp = false;
 
 	TabHost mTabHost;
 	ViewPager  mViewPager;
@@ -45,65 +44,24 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.main);
-		
-        setContentView(R.layout.frag_layout);
 
+		setContentView(R.layout.frag_layout);
 
 
 		final ActionBar ab = getSupportActionBar();
 
 		// set defaults for logo & home up
-		ab.setDisplayHomeAsUpEnabled(showHomeUp);
-		ab.setDisplayUseLogoEnabled(useLogo);
-
-		// set up tabs nav
-		//        for (int i = 1; i < 4; i++) {
-		//            ab.addTab(ab.newTab().setText("Tab " + i).setTabListener(this));
-		//        }
+		ab.setDisplayHomeAsUpEnabled(true);
+		//		ab.setDisplayUseLogoEnabled(useLogo);
 
 		ab.addTab(ab.newTab().setText("Profile").setTabListener(this));
 		ab.addTab(ab.newTab().setText("TownHall").setTabListener(this), true);
 		ab.addTab(ab.newTab().setText("Filter").setTabListener(this));
 
 
-		//		mTabsAdapter.addTab(mTabHost.newTabSpec("profile").setIndicator("Profile"),
-		//                LoaderCustomSupport.AppListFragment.class, null);
-
-
-		// set up list nav
-		ab.setListNavigationCallbacks(ArrayAdapter
-				.createFromResource(this, R.array.sections,
-						R.layout.sherlock_spinner_dropdown_item),
-						new OnNavigationListener() {
-			public boolean onNavigationItemSelected(int itemPosition,
-					long itemId) {
-				// FIXME add proper implementation
-				//				rotateLeftFrag();
-				return false;
-			}
-		});
-
 		// default to tab navigation
 		showTabsNav();
 
-		// create a couple of simple fragments as placeholders
-		final int MARGIN = 16;
-		leftFrag = new RoundedColourFragmentList(getResources().getColor(
-				R.color.android_green), 1f, MARGIN, MARGIN / 2, MARGIN, MARGIN);
-		rightFrag = new RoundedColourFragmentList(getResources().getColor(
-				R.color.honeycombish_blue), 2f, MARGIN / 2, MARGIN, MARGIN,
-				MARGIN);
-		
-
-
-
-
-
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//		ft.add(R.id.root, leftFrag);
-//		ft.add(R.id.root, rightFrag);
-		ft.commit();
 	}
 
 	@Override
@@ -131,7 +89,7 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// TODO handle clicking the app icon/logo
+			Toast.makeText(getApplicationContext(), "We clicked the icon", Toast.LENGTH_SHORT).show();
 			return false;
 		case R.id.menu_refresh:
 			// switch to a progress animation
@@ -141,41 +99,11 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 			item.setChecked(true);
 			showTabsNav();
 			return true;
-		case R.id.menu_nav_label:
-			item.setChecked(true);
-			showStandardNav();
-			return true;
-		case R.id.menu_nav_drop_down:
-			item.setChecked(true);
-			showDropDownNav();
-			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
-	private void rotateLeftFrag() {
-		if (leftFrag != null) {
-			ObjectAnimator.ofFloat(leftFrag.getView(), "rotationY", 0, 180)
-			.setDuration(500).start();
-		}
-	}
-
-	private void showStandardNav() {
-		ActionBar ab = getSupportActionBar();
-		if (ab.getNavigationMode() != ActionBar.NAVIGATION_MODE_STANDARD) {
-			ab.setDisplayShowTitleEnabled(true);
-			ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		}
-	}
-
-	private void showDropDownNav() {
-		ActionBar ab = getSupportActionBar();
-		if (ab.getNavigationMode() != ActionBar.NAVIGATION_MODE_LIST) {
-			ab.setDisplayShowTitleEnabled(false);
-			ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		}
-	}
 
 	private void showTabsNav() {
 		ActionBar ab = getSupportActionBar();
@@ -186,17 +114,51 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	}
 
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-		// FIXME add a proper implementation, for now just rotate the left
-		// fragment
-		//		rotateLeftFrag();
+		//		Toast.makeText(getApplicationContext(), "onTabSelected: " + tab.getText(), Toast.LENGTH_SHORT).show();
+		Log.i(TAG, "onTabSelected: " + tab.getText());
+
+		String tabName = (String) tab.getText();
+
+		if(tabName.equalsIgnoreCase("profile")) {
+
+		} else if(tabName.equalsIgnoreCase("townhall")) {
+
+		} else if(tabName.equalsIgnoreCase("filter")) {
+			
+			Intent intent = new Intent(this, DetailsActivity.class);
+			intent.putExtra("index", 0);
+//			intent.putExtra("locations", TweetsActivity.getLocations());
+			startActivity(intent);
+
+		} else
+			Log.e(TAG, "We\'ve reached a place that we shouldn\'t have");
+
 	}
 
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-		// FIXME implement this
+		//		Toast.makeText(getApplicationContext(), "onTabUnselected: " + tab.getText(), Toast.LENGTH_SHORT).show();
+		Log.i(TAG, "onTabUnselected: " + tab.getText());
 	}
 
 	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-		// FIXME implement this
+		//		Toast.makeText(getApplicationContext(), "onTabReselected: " + tab.getText(), Toast.LENGTH_SHORT).show();
+		Log.i(TAG, "onTabReselected: " + tab.getText());
+		
+		String tabName = (String) tab.getText();
+
+		if(tabName.equalsIgnoreCase("profile")) {
+
+		} else if(tabName.equalsIgnoreCase("townhall")) {
+
+		} else if(tabName.equalsIgnoreCase("filter")) {
+			
+			Intent intent = new Intent(this, DetailsActivity.class);
+			intent.putExtra("index", 0);
+//			intent.putExtra("locations", TweetsActivity.getLocations());
+			startActivity(intent);
+
+		} else
+			Log.e(TAG, "We\'ve reached a place that we shouldn\'t have");
 	}
 
 

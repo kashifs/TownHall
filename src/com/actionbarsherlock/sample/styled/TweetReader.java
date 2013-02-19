@@ -24,8 +24,12 @@ public class TweetReader {
 	public static ArrayList<JSONObject> retrieveSpecificUsersTweets(Twitter twitter){
 		List<Status> statuses = new ArrayList<Status>();
 	    try {
-	    	Paging p = new Paging(1);	//get first page only of timeline - dont want to return everything!
+//	    	Paging p = new Paging(1, 200); 
+	    	Paging p = new Paging(1); //get first page only of timeline - dont want to return everything!
+	    	
+	    	
 			statuses = twitter.getFriendsTimeline(p);
+		
 			
 		} catch (TwitterException e) {
 			Log.e("Twitter", "Error retrieving tweets");
@@ -51,9 +55,9 @@ public class TweetReader {
 				for (Status s : statuses){
 					String avatar = "http://" + s.getUser().getProfileImageURL().getHost() + s.getUser().getProfileImageURL().getPath();
 					JSONObject object = new JSONObject();
+					
 					object.put("tweet", s.getText());
-					String timePosted = Utility.getDateDifference(s.getCreatedAt());
-					object.put("tweetDate", timePosted);
+					object.put("tweetDate", Utility.getDateDifference(s.getCreatedAt()));
 					object.put("author", s.getUser().getName());
 					object.put("avatar", avatar);
 					object.put("userObj", s.getUser());

@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 public class TweetsActivity extends ListActivity {
 	private static final String TAG = "TweetsActivity";
@@ -48,26 +49,45 @@ public class TweetsActivity extends ListActivity {
 		@Override
 		protected String doInBackground(String... params){
 			jobs = TweetReader.retrieveSpecificUsersTweets(t);
+				
 
 			int numJobs = jobs.size();
 
 			tweets = new String[numJobs];
 			locations = new String[numJobs];
+			
+			int[] tweetsToRemove = new int[numJobs];
+			int removeIndex = 0;
 
 			for(int i = 0; i < numJobs; i++) {
 
 				try {
 					JSONObject object = jobs.get(i);
 					tweets[i] = (String)object.get("tweet");
+					
+					String auth = (String)object.get("author");
+					
+					if(!auth.contains("Princeton University")){
+						tweetsToRemove[removeIndex++] = i;
+					}
 
 					User user = (User) object.get("userObj");
 					locations[i] = user.getLocation();
 
 				} catch (JSONException e) {
 					e.printStackTrace();	
-					tweets[0] = "The tweets could not be retrieved";
-				}		
+					Log.e(TAG, "We have a JSON exception :(");
+				}
+				
 			}
+			
+			
+			if(removeIndex != 0)
+				removeIndex--;
+			
+//			for(int j = removeIndex; j >= 0; j--)
+//				jobs.remove(tweetsToRemove[j]);
+			
 			return "All Done!";
 		}
 
