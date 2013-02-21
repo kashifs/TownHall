@@ -67,6 +67,8 @@ public class TweetReader {
 
 		}
 	}
+	
+	
 
 	/**
 	 * a method to retrive a list of tweets from the users who the current user is following
@@ -131,6 +133,11 @@ public class TweetReader {
 
 	public static ArrayList<JSONObject> getJobs() {
 		return jobs;
+	}
+	
+	public static ArrayList<JSONObject> getJobs(String filter){
+		return jobs;
+		
 	}
 
 	public static String[] getLocations() {

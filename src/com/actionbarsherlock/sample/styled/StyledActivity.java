@@ -16,21 +16,16 @@
 
 package com.actionbarsherlock.sample.styled;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TabHost;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
@@ -38,37 +33,35 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 public class StyledActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
 	private static final String TAG = "StyledActivity";
 
-
 	private final Handler handler = new Handler();
 
-	TabHost mTabHost;
-	ViewPager  mViewPager;
+	private FragmentManager fm;
+
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "We went through onCreate");
+
+		fm = getSupportFragmentManager();
 
 
+		setUpActionBar();
 
+	}
 
-		setContentView(R.layout.frag_layout);
-
-
+	public void setUpActionBar(){
 		final ActionBar ab = getSupportActionBar();
 
-		// set defaults for logo & home up
 		ab.setDisplayHomeAsUpEnabled(true);
-		//		ab.setDisplayUseLogoEnabled(useLogo);
+		ab.setDisplayShowTitleEnabled(false);
 
 		ab.addTab(ab.newTab().setText("Profile").setTabListener(this));
 		ab.addTab(ab.newTab().setText("TownHall").setTabListener(this), true);
 		ab.addTab(ab.newTab().setText("Filter").setTabListener(this));
 
-
-		// default to tab navigation
-		showTabsNav();
-
+		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	}
 
 	@Override
@@ -113,57 +106,76 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 
 
 	private void showTabsNav() {
-		ActionBar ab = getSupportActionBar();
-		if (ab.getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS) {
-			ab.setDisplayShowTitleEnabled(false);
-			ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		}
+
 	}
 
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 		Log.i(TAG, "onTabSelected: " + tab.getText());
 
-		String tabName = (String) tab.getText();
-
-		if(tabName.equalsIgnoreCase("profile")) {
-
-		} else if(tabName.equalsIgnoreCase("townhall")) {
-
-		} else if(tabName.equalsIgnoreCase("filter")) {
+		//0 = profile, 1 = townhall, 2 = filter
+		int position = tab.getPosition();
 
 
+		DetailsFragment profile = (DetailsFragment) fm.findFragmentByTag("profile");
+		TownhallFragment townhall = (TownhallFragment) fm.findFragmentByTag("townhall");
+		FilterFragment filter = (FilterFragment) fm.findFragmentByTag("filter");
 
-			//			Intent intent = new Intent(this, DetailsActivity.class);
-			//			intent.putExtra("index", 0);
-			//			startActivity(intent);
 
-		} else
-			Log.e(TAG, "We\'ve reached a place that we shouldn\'t have");
+		switch (position) { 
+		case 0:
+
+			DetailsFragment newProfile = new DetailsFragment();
+
+			if(townhall != null)
+				fm.beginTransaction().remove(townhall).commit();
+			if(filter != null)
+				fm.beginTransaction().remove(filter).commit();
+
+			fm.beginTransaction().add(android.R.id.content, newProfile, "profile").commit();
+
+			break;
+		case 1:
+
+			TownhallFragment newTownhall = new TownhallFragment();
+
+			if(profile != null)
+				fm.beginTransaction().remove(profile).commit();
+			if(filter != null)
+				fm.beginTransaction().remove(filter).commit();
+
+			fm.beginTransaction().add(android.R.id.content, newTownhall, "townhall").commit();
+
+
+			break;
+		case 2:
+
+			FilterFragment newFilter = new FilterFragment();
+
+			if(profile != null)
+				fm.beginTransaction().remove(profile).commit();
+			if(townhall != null)
+				fm.beginTransaction().remove(townhall).commit();
+
+
+			fm.beginTransaction().add(android.R.id.content, newFilter, "filter").commit();
+			break;
+
+		default:
+			assert(false);
+		}
 
 	}
 
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
 		Log.i(TAG, "onTabUnselected: " + tab.getText());
+		Log.i(TAG, "previousTab: " + tab.getPosition());
+
+
 	}
 
 	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-		//		Toast.makeText(getApplicationContext(), "onTabReselected: " + tab.getText(), Toast.LENGTH_SHORT).show();
 		Log.i(TAG, "onTabReselected: " + tab.getText());
 
-		String tabName = (String) tab.getText();
-
-		if(tabName.equalsIgnoreCase("profile")) {
-
-		} else if(tabName.equalsIgnoreCase("townhall")) {
-
-		} else if(tabName.equalsIgnoreCase("filter")) {
-
-			Intent intent = new Intent(this, DetailsActivity.class);
-			intent.putExtra("index", 0);
-			startActivity(intent);
-
-		} else
-			Log.e(TAG, "We\'ve reached a place that we shouldn\'t have");
 	}
 
 

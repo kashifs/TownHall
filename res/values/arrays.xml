@@ -15,13 +15,13 @@
 -->
 
 <resources>
-    <string-array name="sections">
-        <item>Home</item>
-        <item>SDK</item>
-        <item>Dev Guide</item>
-        <item>Reference</item>
-        <item>Resources</item>
-        <item>Videos</item>
-        <item>Blog</item>
+    <string-array name="topics">
+        <item>Sports</item>
+        <item>Education</item>
+        <item>Nightlife</item>
+        <item>Dining</item>
+        <item>Religion</item>
+        <item>Cars</item>
+        <item>Technology</item>
     </string-array>
 </resources>

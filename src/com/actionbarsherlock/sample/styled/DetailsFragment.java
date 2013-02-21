@@ -1,9 +1,6 @@
 package com.actionbarsherlock.sample.styled;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +8,19 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragment;
+
 public class DetailsFragment extends SherlockFragment {
 	/**
 	 * Create a new instance of DetailsFragment, initialized to
 	 * show the text at 'index'.
 	 */
 
-//	private static String[] locations;
 	private final static String TAG = "DetailsFragment";
 	private final static String holder = "a long time ago in a galaxy far, far away....";
 	
 	public static DetailsFragment newInstance(int index) {
 		DetailsFragment f = new DetailsFragment();
-//		locations = TweetsActivity.getLocations();
 		
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
@@ -34,7 +31,8 @@ public class DetailsFragment extends SherlockFragment {
 	}
 
 	public int getShownIndex() {
-		return getArguments().getInt("index", 0);
+//		return getArguments().getInt("index", 0);
+		return 0;
 	}
 
 	@Override

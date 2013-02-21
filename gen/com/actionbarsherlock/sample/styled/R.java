@@ -9,7 +9,7 @@ package com.actionbarsherlock.sample.styled;
 
 public final class R {
     public static final class array {
-        public static final int sections=0x7f0b0000;
+        public static final int topics=0x7f0b0000;
     }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
@@ -1011,13 +1011,13 @@ containing a value of this type.
         public static final int job_text=0x7f040039;
         public static final int last_build_stat=0x7f040038;
         public static final int listMode=0x7f040002;
-        public static final int menu_nav=0x7f04003f;
-        public static final int menu_nav_drop_down=0x7f040042;
-        public static final int menu_nav_group=0x7f040040;
-        public static final int menu_nav_label=0x7f040043;
-        public static final int menu_nav_tabs=0x7f040041;
-        public static final int menu_refresh=0x7f04003e;
-        public static final int menu_search=0x7f04003d;
+        public static final int menu_nav=0x7f040040;
+        public static final int menu_nav_drop_down=0x7f040043;
+        public static final int menu_nav_group=0x7f040041;
+        public static final int menu_nav_label=0x7f040044;
+        public static final int menu_nav_tabs=0x7f040042;
+        public static final int menu_refresh=0x7f04003f;
+        public static final int menu_search=0x7f04003e;
         public static final int normal=0x7f040001;
         public static final int pager=0x7f040037;
         public static final int root=0x7f04003a;
@@ -1027,6 +1027,7 @@ containing a value of this type.
         public static final int tabMode=0x7f040003;
         public static final int text=0x7f040036;
         public static final int useLogo=0x7f040004;
+        public static final int viewFlipper1=0x7f04003d;
         public static final int wrap_content=0x7f040000;
     }
     public static final class integer {
@@ -1066,6 +1067,7 @@ containing a value of this type.
         public static final int main_oauth=0x7f03001e;
         public static final int sherlock_spinner_dropdown_item=0x7f03001f;
         public static final int sherlock_spinner_item=0x7f030020;
+        public static final int view_flipper=0x7f030021;
     }
     public static final class menu {
         public static final int main_menu=0x7f0c0000;

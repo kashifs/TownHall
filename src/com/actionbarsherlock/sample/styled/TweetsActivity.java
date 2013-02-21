@@ -23,10 +23,7 @@ public class TweetsActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		getActionBar().setDisplayShowTitleEnabled(false);
-		getActionBar().setDisplayUseLogoEnabled(false);
 		
-//		setContentView(R.layout.main);
 		
 		Twitter t = ((TwitterApplication)getApplication()).getTwitter();
 

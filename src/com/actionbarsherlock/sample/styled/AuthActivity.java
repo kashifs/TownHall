@@ -77,6 +77,9 @@ public class AuthActivity extends Activity {
 		Log.i(TAG, "Starting first activity");
 		Intent i = new Intent(this, TweetsActivity.class);
 		startActivityForResult(i, Constants.ACTIVITY_LATEST_TWEETS);
+		
+		
+		
 	}
 
 	/**
