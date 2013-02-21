@@ -62,13 +62,11 @@ public class TweetReader {
 		@Override
 		protected void onPostExecute(ArrayList<JSONObject> result) {
 			super.onPostExecute(result);
-			Handler tweetHandler = TweetsActivity.getTweetsHandler();
+			Handler tweetHandler = AuthActivity.getTweetsHandler();
 			tweetHandler.sendEmptyMessage(0);
 
 		}
 	}
-	
-	
 
 	/**
 	 * a method to retrive a list of tweets from the users who the current user is following
@@ -133,11 +131,6 @@ public class TweetReader {
 
 	public static ArrayList<JSONObject> getJobs() {
 		return jobs;
-	}
-	
-	public static ArrayList<JSONObject> getJobs(String filter){
-		return jobs;
-		
 	}
 
 	public static String[] getLocations() {

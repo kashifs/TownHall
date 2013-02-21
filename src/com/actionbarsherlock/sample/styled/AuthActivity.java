@@ -1,6 +1,12 @@
 package com.actionbarsherlock.sample.styled;
 
 
+import java.util.ArrayList;
+
+import org.json.JSONObject;
+
+import com.actionbarsherlock.sample.styled.TweetReader.AsyncRetrieveTweets;
+
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
@@ -13,6 +19,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +41,8 @@ public class AuthActivity extends Activity {
 	public static AccessToken accessToken;
 
 	private Button buttonLogin;
+
+	private static Handler handleFetchedTweets;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,12 +84,33 @@ public class AuthActivity extends Activity {
 	 * Kick off the activity to display 
 	 */
 	private void startFirstActivity() {
-		Log.i(TAG, "Starting first activity");
-		Intent i = new Intent(this, TweetsActivity.class);
-		startActivityForResult(i, Constants.ACTIVITY_LATEST_TWEETS);
+//		Log.i(TAG, "Starting first activity");
+//		Intent i = new Intent(this, TweetsActivity.class);
+//		startActivityForResult(i, Constants.ACTIVITY_LATEST_TWEETS);
 		
 		
-		
+		Twitter t = ((TwitterApplication)getApplication()).getTwitter();
+
+		final Activity save = this;
+
+		TweetReader tweetReader = new TweetReader();
+
+		AsyncTask<Object, Void, ArrayList<JSONObject>> mRetrieveTweets = tweetReader.new AsyncRetrieveTweets();
+		mRetrieveTweets.execute(t);
+
+
+		handleFetchedTweets = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				Intent intent = new Intent(save, StyledActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		};
+	}
+	
+	public static Handler getTweetsHandler(){
+		return handleFetchedTweets;
 	}
 
 	/**
@@ -118,9 +149,9 @@ public class AuthActivity extends Activity {
 			try {
 				consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 				provider = new DefaultOAuthProvider(
-						"http://twitter.com/oauth/request_token", 
-						"http://twitter.com/oauth/access_token", 
-						"http://twitter.com/oauth/authorize");
+						"https://twitter.com/oauth/request_token", 
+						"https://twitter.com/oauth/access_token", 
+						"https://twitter.com/oauth/authorize");
 				String authUrl = provider.retrieveRequestToken(consumer, CALLBACK_URL);
 
 				setConsumerProvider();
