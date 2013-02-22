@@ -3,6 +3,7 @@ package com.actionbarsherlock.sample.styled;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -12,6 +13,8 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class FilterFragment extends SherlockListFragment {
 	boolean isDualPane;
 	int mCurCheckPosition = 0;
+	
+	private final static String TAG = "FilterFragment";
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -20,6 +23,9 @@ public class FilterFragment extends SherlockListFragment {
 		
 		setListAdapter(new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.topics)));
+		
+//		setListAdapter(new ArrayAdapter<String>(getActivity(),
+//                R.layout.my_list_item_icon_text, getResources().getStringArray(R.array.topics)));
 		
 		
 		// Check to see if we have a frame in which to embed the details
@@ -50,8 +56,11 @@ public class FilterFragment extends SherlockListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		showDetails(position);
+//		showDetails(position);
 		
+		String sFilter = getResources().getStringArray(R.array.topics)[position];
+		
+		Log.d(TAG, "The clicked text is: " + sFilter);
 	}
 
 	/**

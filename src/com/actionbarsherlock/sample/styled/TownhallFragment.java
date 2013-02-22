@@ -34,23 +34,7 @@ public class TownhallFragment extends SherlockListFragment {
 
 		Log.i(TAG, "passed through onActivityCreated method of TownhallFragment");
 
-		Twitter t = ((TwitterApplication)getActivity().getApplication()).getTwitter();
 
-
-
-		TweetReader tweetReader = new TweetReader();
-
-		AsyncTask<Object, Void, ArrayList<JSONObject>> mRetrieveTweets = tweetReader.new AsyncRetrieveTweets();
-		mRetrieveTweets.execute(t);
-
-
-		handleFetchedTweets = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-//				Intent intent = new Intent(save, StyledActivity.class);
-//				startActivity(intent);
-			}
-		};
 
 
 		setListAdapter(new TwitterListAdapter(getActivity(), TweetReader.getJobs()));

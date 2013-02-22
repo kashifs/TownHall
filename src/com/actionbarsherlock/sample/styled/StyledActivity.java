@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
@@ -36,16 +35,19 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	private final Handler handler = new Handler();
 
 	private FragmentManager fm;
+	
+	private static int mPosition = 1;
 
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		
 		Log.d(TAG, "We went through onCreate");
 
 		fm = getSupportFragmentManager();
-
 
 		setUpActionBar();
 
@@ -57,9 +59,25 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setDisplayShowTitleEnabled(false);
 
-		ab.addTab(ab.newTab().setText("Profile").setTabListener(this));
-		ab.addTab(ab.newTab().setText("TownHall").setTabListener(this), true);
-		ab.addTab(ab.newTab().setText("Filter").setTabListener(this));
+		
+		switch (mPosition) { 
+		case 0:
+			ab.addTab(ab.newTab().setText("Profile").setTabListener(this), true);
+			ab.addTab(ab.newTab().setText("TownHall").setTabListener(this));
+			ab.addTab(ab.newTab().setText("Filter").setTabListener(this));
+			break;
+		case 1:
+			ab.addTab(ab.newTab().setText("Profile").setTabListener(this));
+			ab.addTab(ab.newTab().setText("TownHall").setTabListener(this), true);
+			ab.addTab(ab.newTab().setText("Filter").setTabListener(this));
+			break;
+		case 2:
+			ab.addTab(ab.newTab().setText("Profile").setTabListener(this));
+			ab.addTab(ab.newTab().setText("TownHall").setTabListener(this));
+			ab.addTab(ab.newTab().setText("Filter").setTabListener(this), true);
+			break;
+		}
+		
 
 		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	}
@@ -112,8 +130,12 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 		Log.i(TAG, "onTabSelected: " + tab.getText());
 
+		
+		
 		//0 = profile, 1 = townhall, 2 = filter
-		int position = tab.getPosition();
+//		int position = tab.getPosition();
+		
+		mPosition = tab.getPosition();
 
 
 		DetailsFragment profile = (DetailsFragment) fm.findFragmentByTag("profile");
@@ -121,17 +143,17 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 		FilterFragment filter = (FilterFragment) fm.findFragmentByTag("filter");
 
 
-		switch (position) { 
+		switch (mPosition) { 
 		case 0:
 
-			DetailsFragment newProfile = new DetailsFragment();
+			DetailsFragment newProfile = DetailsFragment.newInstance((int)(Math.random()*20)); //new DetailsFragment();
 
+			if(profile == null)
+				fm.beginTransaction().add(android.R.id.content, newProfile, "profile").commit();
 			if(townhall != null)
 				fm.beginTransaction().remove(townhall).commit();
 			if(filter != null)
 				fm.beginTransaction().remove(filter).commit();
-
-			fm.beginTransaction().add(android.R.id.content, newProfile, "profile").commit();
 
 			break;
 		case 1:
@@ -140,11 +162,10 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 
 			if(profile != null)
 				fm.beginTransaction().remove(profile).commit();
+			if(townhall == null)
+				fm.beginTransaction().add(android.R.id.content, newTownhall, "townhall").commit();
 			if(filter != null)
 				fm.beginTransaction().remove(filter).commit();
-
-			fm.beginTransaction().add(android.R.id.content, newTownhall, "townhall").commit();
-
 
 			break;
 		case 2:
@@ -155,9 +176,8 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 				fm.beginTransaction().remove(profile).commit();
 			if(townhall != null)
 				fm.beginTransaction().remove(townhall).commit();
-
-
-			fm.beginTransaction().add(android.R.id.content, newFilter, "filter").commit();
+			if(filter == null)
+				fm.beginTransaction().add(android.R.id.content, newFilter, "filter").commit();
 			break;
 
 		default:

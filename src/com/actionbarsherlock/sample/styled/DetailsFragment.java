@@ -31,8 +31,8 @@ public class DetailsFragment extends SherlockFragment {
 	}
 
 	public int getShownIndex() {
-//		return getArguments().getInt("index", 0);
-		return 0;
+		return getArguments().getInt("index", 0);
+//		return 0;
 	}
 
 	@Override

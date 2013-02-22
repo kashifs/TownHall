@@ -960,7 +960,7 @@ containing a value of this type.
         public static final int thlogo=0x7f02008e;
     }
     public static final class id {
-        public static final int ButtonLogin=0x7f04003c;
+        public static final int ButtonLogin=0x7f04003d;
         public static final int abs__action_bar=0x7f040022;
         public static final int abs__action_bar_container=0x7f040021;
         public static final int abs__action_bar_subtitle=0x7f040011;
@@ -1006,28 +1006,29 @@ containing a value of this type.
         public static final int edit_query=0x7f040027;
         public static final int fraglayout=0x7f040035;
         public static final int homeAsUp=0x7f040006;
-        public static final int imageView1=0x7f04003b;
+        public static final int icon=0x7f04003a;
+        public static final int imageView1=0x7f04003c;
         public static final int items=0x7f040034;
         public static final int job_text=0x7f040039;
         public static final int last_build_stat=0x7f040038;
         public static final int listMode=0x7f040002;
-        public static final int menu_nav=0x7f040040;
-        public static final int menu_nav_drop_down=0x7f040043;
-        public static final int menu_nav_group=0x7f040041;
-        public static final int menu_nav_label=0x7f040044;
-        public static final int menu_nav_tabs=0x7f040042;
-        public static final int menu_refresh=0x7f04003f;
-        public static final int menu_search=0x7f04003e;
+        public static final int menu_nav=0x7f040041;
+        public static final int menu_nav_drop_down=0x7f040044;
+        public static final int menu_nav_group=0x7f040042;
+        public static final int menu_nav_label=0x7f040045;
+        public static final int menu_nav_tabs=0x7f040043;
+        public static final int menu_refresh=0x7f040040;
+        public static final int menu_search=0x7f04003f;
         public static final int normal=0x7f040001;
         public static final int pager=0x7f040037;
-        public static final int root=0x7f04003a;
+        public static final int root=0x7f04003b;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
         public static final int tabMode=0x7f040003;
         public static final int text=0x7f040036;
         public static final int useLogo=0x7f040004;
-        public static final int viewFlipper1=0x7f04003d;
+        public static final int viewFlipper1=0x7f04003e;
         public static final int wrap_content=0x7f040000;
     }
     public static final class integer {
@@ -1063,11 +1064,13 @@ containing a value of this type.
         public static final int fragment_tabs_pager=0x7f03001a;
         public static final int image_text_layout=0x7f03001b;
         public static final int indeterminate_progress_action=0x7f03001c;
-        public static final int main=0x7f03001d;
-        public static final int main_oauth=0x7f03001e;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001f;
-        public static final int sherlock_spinner_item=0x7f030020;
-        public static final int view_flipper=0x7f030021;
+        public static final int list_item_icon_text=0x7f03001d;
+        public static final int main=0x7f03001e;
+        public static final int main_oauth=0x7f03001f;
+        public static final int my_list_item_icon_text=0x7f030020;
+        public static final int sherlock_spinner_dropdown_item=0x7f030021;
+        public static final int sherlock_spinner_item=0x7f030022;
+        public static final int view_flipper=0x7f030023;
     }
     public static final class menu {
         public static final int main_menu=0x7f0c0000;

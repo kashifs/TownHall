@@ -1,13 +1,18 @@
 package com.actionbarsherlock.sample.styled;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import twitter4j.GeoLocation;
 import twitter4j.Paging;
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.Status;
+import twitter4j.Tweet;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -18,50 +23,31 @@ import android.util.Log;
 public class TweetReader {
 	private static final String TAG = "TweetReader";
 
-	private static ArrayList<JSONObject> jobs;
-	private static String[] tweets, locations;
+	private static ArrayList<JSONObject> JOBS = new ArrayList<JSONObject>();
+	private static String[] mTweets, mLocations;
 
 
 	/*
 	 * The first parameter is the tweet, the second is an array used as a filter
 	 */
-	public class AsyncRetrieveTweets extends AsyncTask<Object, Void, ArrayList<JSONObject>> {
+	public class AsyncRetrieveTweets extends AsyncTask<Object, Void, Void> {
 
 		@Override
-		protected ArrayList<JSONObject> doInBackground(Object... params) {
+		protected Void doInBackground(Object... params) {
 
 			Twitter twitter = (Twitter)params[0];
-			List<twitter4j.Status> statuses = retrieveSpecificUsersTweets(twitter);
-			jobs = convertTimelineToJson(statuses);
-
-			int numJobs = jobs.size();
+			//			List<twitter4j.Status> statuses = retrieveSpecificUsersTweets(twitter);
+			//			convertTimelineToJson(statuses);
 
 
-			tweets = new String[numJobs];
-			locations = new String[numJobs];
+			retrieveTweetsAbout(twitter, "sports");
 
 
-			for(int i = 0; i < numJobs; i++) {
-
-				try {
-					JSONObject object = jobs.get(i);
-
-					tweets[i] = (String)object.get("tweet");
-					locations[i] = ((User) object.get("userObj")).getLocation();
-
-				} catch (JSONException e) {
-					e.printStackTrace();	
-					Log.e(TAG, "We have a JSON exception :(");
-				}
-			}
-
-
-			return jobs;
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(ArrayList<JSONObject> result) {
-			super.onPostExecute(result);
+		protected void onPostExecute(Void word) {
 			Handler tweetHandler = AuthActivity.getTweetsHandler();
 			tweetHandler.sendEmptyMessage(0);
 
@@ -76,9 +62,11 @@ public class TweetReader {
 	public static List<Status> retrieveSpecificUsersTweets(Twitter twitter){
 		List<Status> statuses = new ArrayList<Status>();
 		Paging p = new Paging(1);
-		
-		try { 
+
+		try {
+
 			statuses = twitter.getFriendsTimeline(p);
+
 		} catch (TwitterException e) {
 			Log.e("Twitter", "Error retrieving tweets");
 			Log.e("Twitter", e.getMessage());
@@ -88,6 +76,65 @@ public class TweetReader {
 	}
 
 
+	public static ArrayList<JSONObject> retrieveTweetsAbout(Twitter twitter, String about){
+		Query query = new Query(about);
+		query.setRpp(20);
+
+		QueryResult result = null;
+		ArrayList<Tweet> tweets = null;
+
+
+
+
+		try {
+			result = twitter.search(query);
+			tweets = (ArrayList<Tweet>) result.getTweets();
+
+			int numJobs = tweets.size();
+
+			mTweets = new String[numJobs];
+			mLocations = new String[numJobs];
+
+			for (int i = 0; i < numJobs; i++) {
+				Tweet t = (Tweet) tweets.get(i);
+				mTweets[i] = t.getText();
+				GeoLocation location = t.getGeoLocation();
+				if(location != null)
+					mLocations[i] = t.getGeoLocation().toString();
+				else
+					mLocations[i] = "a long time ago in a galaxy far, far away....";
+
+				JSONObject object = new JSONObject();
+
+				object.put("tweet", t.getText());
+				object.put("tweetDate", Utility.getDateDifference(t.getCreatedAt()));
+				object.put("author", t.getFromUser());
+
+				JOBS.add(object);	
+			}
+
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+
+
+
+
+
+
+
+
+		return JOBS;
+	}
+
+
+
+
 
 	/**
 	 * Method that converts a list of Status' to a JSON array that can be displayed by the grid view
@@ -95,19 +142,26 @@ public class TweetReader {
 	 * @return
 	 */
 	private static ArrayList<JSONObject> convertTimelineToJson(List<Status> statuses) {
-		ArrayList<JSONObject> JOBS = new ArrayList<JSONObject>();
+
+		int numJobs = statuses.size();
+
+		mTweets = new String[numJobs];
+		mLocations = new String[numJobs];
+		int i = 0;
+
 		try {
-			if (statuses.size()>0){
-				for (Status s : statuses){
-					String avatar = "http://" + s.getUser().getProfileImageURL().getHost() + s.getUser().getProfileImageURL().getPath();
+			if (statuses.size() > 0) {
+				for (Status s : statuses) {
 					JSONObject object = new JSONObject();
+
+					mTweets[i]       = s.getText();
+					mLocations[i]  = s.getUser().getLocation();
+					i++;
 
 					object.put("tweet", s.getText());
 					object.put("tweetDate", Utility.getDateDifference(s.getCreatedAt()));
 					object.put("author", s.getUser().getName());
-					object.put("avatar", avatar);
-					object.put("userObj", s.getUser());
-					object.put("tweetId", s.getId());
+
 
 					JOBS.add(object);	
 				}
@@ -126,14 +180,14 @@ public class TweetReader {
 	}
 
 	public static String[] getTweets() {
-		return tweets;
+		return mTweets;
 	}
 
 	public static ArrayList<JSONObject> getJobs() {
-		return jobs;
+		return JOBS;
 	}
 
 	public static String[] getLocations() {
-		return locations;
+		return mLocations;
 	}
 }
