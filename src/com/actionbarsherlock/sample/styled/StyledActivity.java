@@ -16,6 +16,7 @@
 
 package com.actionbarsherlock.sample.styled;
 
+import twitter4j.Twitter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -29,14 +30,17 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class StyledActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
+public class StyledActivity extends SherlockFragmentActivity 
+implements ActionBar.TabListener {
 	private static final String TAG = "StyledActivity";
 
 	private final Handler handler = new Handler();
 
 	private FragmentManager fm;
-	
+
 	private static int mPosition = 1;
+
+	private static Twitter mTwitter; 
 
 
 	/** Called when the activity is first created. */
@@ -44,7 +48,9 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		
+
+		mTwitter = ((TwitterApplication)getApplication()).getTwitter();
+
 		Log.d(TAG, "We went through onCreate");
 
 		fm = getSupportFragmentManager();
@@ -53,13 +59,15 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 
 	}
 
+
+
 	public void setUpActionBar(){
 		final ActionBar ab = getSupportActionBar();
 
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setDisplayShowTitleEnabled(false);
 
-		
+
 		switch (mPosition) { 
 		case 0:
 			ab.addTab(ab.newTab().setText("Profile").setTabListener(this), true);
@@ -77,7 +85,7 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 			ab.addTab(ab.newTab().setText("Filter").setTabListener(this), true);
 			break;
 		}
-		
+
 
 		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	}
@@ -107,7 +115,8 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			Toast.makeText(getApplicationContext(), "We clicked the icon", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), 
+					"We clicked the icon", Toast.LENGTH_SHORT).show();
 			return false;
 		case R.id.menu_refresh:
 			// switch to a progress animation
@@ -128,32 +137,34 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	}
 
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-		Log.i(TAG, "onTabSelected: " + tab.getText());
+		Log.d(TAG, "onTabSelected: " + tab.getText());
 
-		
-		
-		//0 = profile, 1 = townhall, 2 = filter
-//		int position = tab.getPosition();
-		
 		mPosition = tab.getPosition();
 
 
-		DetailsFragment profile = (DetailsFragment) fm.findFragmentByTag("profile");
-		TownhallFragment townhall = (TownhallFragment) fm.findFragmentByTag("townhall");
-		FilterFragment filter = (FilterFragment) fm.findFragmentByTag("filter");
+		DetailsFragment profile = 
+				(DetailsFragment) fm.findFragmentByTag("profile");
+		TownhallFragment townhall = 
+				(TownhallFragment) fm.findFragmentByTag("townhall");
+		FilterFragment filter = 
+				(FilterFragment) fm.findFragmentByTag("filter");
 
 
 		switch (mPosition) { 
 		case 0:
 
-			DetailsFragment newProfile = DetailsFragment.newInstance((int)(Math.random()*20)); //new DetailsFragment();
+			DetailsFragment newProfile = 
+			DetailsFragment.newInstance((int)(Math.random()*19)); 
 
-			if(profile == null)
-				fm.beginTransaction().add(android.R.id.content, newProfile, "profile").commit();
+			if(profile != null)
+				fm.beginTransaction().remove(profile).commit();
 			if(townhall != null)
 				fm.beginTransaction().remove(townhall).commit();
 			if(filter != null)
 				fm.beginTransaction().remove(filter).commit();
+
+			fm.beginTransaction().add(
+					android.R.id.content, newProfile, "profile").commit();
 
 			break;
 		case 1:
@@ -162,10 +173,15 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 
 			if(profile != null)
 				fm.beginTransaction().remove(profile).commit();
-			if(townhall == null)
-				fm.beginTransaction().add(android.R.id.content, newTownhall, "townhall").commit();
+			if(townhall != null)
+				fm.beginTransaction().remove(townhall).commit();
 			if(filter != null)
 				fm.beginTransaction().remove(filter).commit();
+
+
+
+			fm.beginTransaction().add(
+					android.R.id.content, newTownhall, "townhall").commit();
 
 			break;
 		case 2:
@@ -176,8 +192,11 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 				fm.beginTransaction().remove(profile).commit();
 			if(townhall != null)
 				fm.beginTransaction().remove(townhall).commit();
-			if(filter == null)
-				fm.beginTransaction().add(android.R.id.content, newFilter, "filter").commit();
+			if(filter != null)
+				fm.beginTransaction().remove(filter).commit();
+
+			fm.beginTransaction().add(
+					android.R.id.content, newFilter, "filter").commit();
 			break;
 
 		default:
@@ -187,15 +206,72 @@ public class StyledActivity extends SherlockFragmentActivity implements ActionBa
 	}
 
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-		Log.i(TAG, "onTabUnselected: " + tab.getText());
-		Log.i(TAG, "previousTab: " + tab.getPosition());
+		Log.d(TAG, "onTabUnselected: " + tab.getText());
+		Log.d(TAG, "previousTab: " + tab.getPosition());
+
 
 
 	}
 
 	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-		Log.i(TAG, "onTabReselected: " + tab.getText());
+		Log.d(TAG, "onTabReselected: " + tab.getText());
+		
+		mPosition = tab.getPosition();
 
+
+		DetailsFragment profile = 
+				(DetailsFragment) fm.findFragmentByTag("profile");
+		TownhallFragment townhall = 
+				(TownhallFragment) fm.findFragmentByTag("townhall");
+		FilterFragment filter = 
+				(FilterFragment) fm.findFragmentByTag("filter");
+
+
+		switch (mPosition) { 
+		case 0:
+
+			break;
+		case 1:
+
+			TownhallFragment newTownhall = new TownhallFragment();
+
+			if(profile != null)
+				fm.beginTransaction().remove(profile).commit();
+			if(townhall != null)
+				fm.beginTransaction().remove(townhall).commit();
+			if(filter != null)
+				fm.beginTransaction().remove(filter).commit();
+
+
+
+			fm.beginTransaction().add(
+					android.R.id.content, newTownhall, "townhall").commit();
+
+			break;
+		case 2:
+
+			FilterFragment newFilter = new FilterFragment();
+
+			if(profile != null)
+				fm.beginTransaction().remove(profile).commit();
+			if(townhall != null)
+				fm.beginTransaction().remove(townhall).commit();
+			if(filter != null)
+				fm.beginTransaction().remove(filter).commit();
+
+			fm.beginTransaction().add(
+					android.R.id.content, newFilter, "filter").commit();
+			break;
+
+		default:
+			assert(false);
+		}
+	}
+
+
+
+	public static Twitter getTwitter() {
+		return mTwitter;
 	}
 
 

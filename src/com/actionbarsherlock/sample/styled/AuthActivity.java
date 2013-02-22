@@ -13,8 +13,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,17 +30,15 @@ public class AuthActivity extends Activity {
 	private String CONSUMER_SECRET =        Constants.CONSUMER_SECRET;
 	private String CALLBACK_URL =           "callback://tweeter";
 
-	public static AccessToken accessToken;
-
+	
 	private Button buttonLogin;
 
-	private static Handler handleFetchedTweets;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		System.setProperty("http.keepAlive", "false");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_oauth);
+		
 
 		//check for saved log in details..
 		checkForSavedLogin();
@@ -50,6 +46,8 @@ public class AuthActivity extends Activity {
 		//set consumer and provider on the Application service
 		getConsumerProvider();
 
+		setContentView(R.layout.main_oauth);
+		
 		//Define login button and listener
 		buttonLogin = (Button)findViewById(R.id.ButtonLogin);
 		buttonLogin.setOnClickListener(new OnClickListener() {  
@@ -57,22 +55,10 @@ public class AuthActivity extends Activity {
 				new AskOAuthAsync().execute();
 			}
 		});
-		
-		
-		final AuthActivity save = this;
-		
-		
-		handleFetchedTweets = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				Intent intent = new Intent(save, StyledActivity.class);
-				startActivity(intent);
-				finish();
-			}
-		};
-		
 	}
 
+
+	
 	private void checkForSavedLogin() {
 		// Get Access Token and persist it
 		AccessToken a = getAccessToken();
@@ -85,32 +71,24 @@ public class AuthActivity extends Activity {
 		twitter.setOAuthAccessToken(a);
 		((TwitterApplication)getApplication()).setTwitter(twitter);
 
-		startFirstActivity();
+		startStyledActivity();
 		finish();
 	}
 
 	/**
 	 * Kick off the activity to display 
 	 */
-	private void startFirstActivity() {
+	private void startStyledActivity() {
 		
-		Twitter t = ((TwitterApplication)getApplication()).getTwitter();
-
-		
-
-		TweetReader tweetReader = new TweetReader();
-
-		AsyncTask<Object, Void, Void> mRetrieveTweets = 
-				tweetReader.new AsyncRetrieveTweets();
-		mRetrieveTweets.execute(t);
-
+		Intent intent = new Intent(this, StyledActivity.class);
+		startActivity(intent);
+		finish();
 
 		
+
 	}
-	
-	public static Handler getTweetsHandler(){
-		return handleFetchedTweets;
-	}
+
+
 
 	/**
 	 * This method checks the shared prefs to see if we have persisted 
@@ -127,8 +105,7 @@ public class AuthActivity extends Activity {
 
 		if (token != null && tokenSecret != null && 
 				!"".equals(tokenSecret) && !"".equals(token)){
-
-			accessToken = new AccessToken(token, tokenSecret); 
+ 
 			return new AccessToken(token, tokenSecret);
 		}
 		return null;
@@ -212,7 +189,7 @@ public class AuthActivity extends Activity {
 					twitter.setOAuthAccessToken(a);
 					((TwitterApplication)getApplication()).setTwitter(twitter);
 
-					startFirstActivity();
+					startStyledActivity();
 
 				} catch (Exception e) {
 					e.printStackTrace();

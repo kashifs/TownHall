@@ -23,7 +23,7 @@ import android.util.Log;
 public class TweetReader {
 	private static final String TAG = "TweetReader";
 
-	private static ArrayList<JSONObject> JOBS = new ArrayList<JSONObject>();
+	private static ArrayList<JSONObject> JOBS;
 	private static String[] mTweets, mLocations;
 
 
@@ -34,13 +34,12 @@ public class TweetReader {
 
 		@Override
 		protected Void doInBackground(Object... params) {
-			//only took 3 hours!
+			
 			Twitter twitter = (Twitter)params[0];
-			//			List<twitter4j.Status> statuses = retrieveSpecificUsersTweets(twitter);
-			//			convertTimelineToJson(statuses);
+			String about = (String)params[1];
 
 
-			retrieveTweetsAbout(twitter, "sports");
+			retrieveTweetsAbout(twitter, about);
 
 
 			return null;
@@ -48,7 +47,7 @@ public class TweetReader {
 
 		@Override
 		protected void onPostExecute(Void word) {
-			Handler tweetHandler = AuthActivity.getTweetsHandler();
+			Handler tweetHandler = TownhallFragment.getTweetsHandler();
 			tweetHandler.sendEmptyMessage(0);
 
 		}
@@ -80,15 +79,17 @@ public class TweetReader {
 		Query query = new Query(about);
 		query.setRpp(20);
 
+		Log.d(TAG, "We want tweets related to: " + about);
+		
 		QueryResult result = null;
 		ArrayList<Tweet> tweets = null;
-
 
 
 
 		try {
 			result = twitter.search(query);
 			tweets = (ArrayList<Tweet>) result.getTweets();
+			JOBS = new ArrayList<JSONObject>();
 
 			int numJobs = tweets.size();
 

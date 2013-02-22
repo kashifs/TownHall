@@ -44,7 +44,7 @@ public class FilterFragment extends SherlockListFragment {
 			
 			
 
-			showDetails(mCurCheckPosition);
+			showDetails(mCurCheckPosition, "hi");
 		}
 	}
 
@@ -58,9 +58,11 @@ public class FilterFragment extends SherlockListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 //		showDetails(position);
 		
-		String sFilter = getResources().getStringArray(R.array.topics)[position];
+		String filter = getResources().getStringArray(R.array.topics)[position];
 		
-		Log.d(TAG, "The clicked text is: " + sFilter);
+		showDetails(10, filter);
+		
+		Log.d(TAG, "The clicked text is: " + filter);
 	}
 
 	/**
@@ -68,7 +70,7 @@ public class FilterFragment extends SherlockListFragment {
 	 * displaying a fragment in-place in the current UI, or starting a
 	 * whole new activity in which it is displayed.
 	 */
-	void showDetails(int index) {
+	void showDetails(int index, String filter) {
 		mCurCheckPosition = index;
 
 		if (isDualPane) {
@@ -87,6 +89,7 @@ public class FilterFragment extends SherlockListFragment {
 				// with this one inside the frame.
 				FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 				ft.replace(R.id.details, details);
+				
 				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 				ft.commit();
 			}
@@ -94,10 +97,22 @@ public class FilterFragment extends SherlockListFragment {
 		} else {
 			// Otherwise we need to launch a new activity to display
 			// the dialog fragment with selected text.
-			Intent intent = new Intent();
-			intent.setClass(getActivity(), DetailsActivity.class);
-			intent.putExtra("index", index);
-			startActivity(intent);
+//			Intent intent = new Intent();
+//			intent.setClass(getActivity(), DetailsActivity.class);
+//			intent.putExtra("index", index);
+//			startActivity(intent);
+			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+			ft.remove(this).commit();
+			
+			ft = getActivity().getSupportFragmentManager().beginTransaction();
+//			
+			TownhallFragment newTownhall = new TownhallFragment();
+			Bundle extras = new Bundle();
+			extras.putString("filter", filter);
+			newTownhall.setArguments(extras);
+			
+			ft.add(
+					android.R.id.content, newTownhall, "townhall").commit();
 		}
 	}
 }
