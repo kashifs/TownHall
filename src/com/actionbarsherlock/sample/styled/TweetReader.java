@@ -34,7 +34,7 @@ public class TweetReader {
 
 		@Override
 		protected Void doInBackground(Object... params) {
-			//thirdautomatedpush
+			//fifthautomatedpush
 			Twitter twitter = (Twitter)params[0];
 			//			List<twitter4j.Status> statuses = retrieveSpecificUsersTweets(twitter);
 			//			convertTimelineToJson(statuses);
