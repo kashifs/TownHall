@@ -28,7 +28,7 @@ public class TweetReader {
 
 
 	/*
-	 * The first parameter is the tweet, the second is an array used as a filter
+	 * The first parameter is the tweet, the second is a string used as a filter
 	 */
 	public class AsyncRetrieveTweets extends AsyncTask<Object, Void, Void> {
 
@@ -38,9 +38,7 @@ public class TweetReader {
 			Twitter twitter = (Twitter)params[0];
 			String about = (String)params[1];
 
-
 			retrieveTweetsAbout(twitter, about);
-
 
 			return null;
 		}
@@ -49,7 +47,6 @@ public class TweetReader {
 		protected void onPostExecute(Void word) {
 			Handler tweetHandler = TownhallFragment.getTweetsHandler();
 			tweetHandler.sendEmptyMessage(0);
-
 		}
 	}
 
@@ -120,14 +117,6 @@ public class TweetReader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-
-
-
-
-
-
 
 
 		return JOBS;

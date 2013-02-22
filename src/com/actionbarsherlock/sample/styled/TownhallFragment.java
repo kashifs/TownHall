@@ -1,6 +1,12 @@
 package com.actionbarsherlock.sample.styled;
 
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import twitter4j.Twitter;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,8 +25,11 @@ public class TownhallFragment extends SherlockListFragment {
 	public static Handler handleFetchedTweets;
 
 	private static final String TAG = "TownhallFragment";
+	
+
+	
 	private static TweetReader tweetReader;
-	private static boolean change = true;
+	private List<JSONObject> imageAndTexts;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -30,10 +39,14 @@ public class TownhallFragment extends SherlockListFragment {
 		Bundle extras = this.getArguments();
 		String filter;
 		
+		final Activity thisActivity = getActivity();
+	
+		
+		
 		if(extras != null)
 			filter = extras.getString("filter");
 		else 
-			filter = "sports";
+			filter = "Philadelphia";
 
 
 		Twitter t = StyledActivity.getTwitter();
@@ -43,15 +56,6 @@ public class TownhallFragment extends SherlockListFragment {
 		tweetReader.new AsyncRetrieveTweets().execute(t, filter);
 
 
-		//		if(change){
-		//			tweetReader.new AsyncRetrieveTweets().execute(t, "philadelphia eagles");
-		//		} else {
-		//			tweetReader.new AsyncRetrieveTweets().execute(t, "miami heat");
-		//		}
-		//
-		//		change = !change;
-		//		Log.d(TAG, "change is: " + change);
-
 
 		final Bundle mySavedInstanceState = savedInstanceState;
 
@@ -59,16 +63,35 @@ public class TownhallFragment extends SherlockListFragment {
 		handleFetchedTweets = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
+				
+				imageAndTexts = TweetReader.getJobs();
+				
+//				if(imageAndTexts == null){
+//					JSONObject object = new JSONObject();
+//
+//					try {
+//						object.put("tweet", "Please Refresh");
+//						object.put("tweetDate", "Please Refresh");
+//						object.put("author", "Please Refresh");
+//					} catch (JSONException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					
+//
+//					imageAndTexts.add(object);	
+//				}
+//					
+					
 
 
-
-				setListAdapter(new TwitterListAdapter(getActivity(), 
-						TweetReader.getJobs()));
+				setListAdapter(
+						new TwitterListAdapter(thisActivity, imageAndTexts));
 
 
 				// Check to see if we have a frame in which to embed the details
 				// fragment directly in the containing UI.
-				View detailsFrame = getActivity().findViewById(R.id.details);
+				View detailsFrame = thisActivity.findViewById(R.id.details);
 				isDualPane = (detailsFrame != null) && 
 						(detailsFrame.getVisibility() == View.VISIBLE);
 
