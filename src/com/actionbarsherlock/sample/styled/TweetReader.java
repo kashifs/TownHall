@@ -1,11 +1,12 @@
 package com.actionbarsherlock.sample.styled;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import twitter4j.GeoLocation;
 import twitter4j.Paging;
@@ -15,7 +16,6 @@ import twitter4j.Status;
 import twitter4j.Tweet;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.User;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
@@ -24,7 +24,19 @@ public class TweetReader {
 	private static final String TAG = "TweetReader";
 
 	private static ArrayList<JSONObject> JOBS;
-	private static String[] mTweets, mLocations;
+	private static String[] mTweets;
+	private static GeoLocation[] mLocations;
+	
+	private static GeoLocation philly = new GeoLocation(39.9522, -75.1642);
+	private static GeoLocation newyork = new GeoLocation(40.77, -73.98);
+	private static GeoLocation atlanta = new GeoLocation(33.65, -84.42);
+	private static GeoLocation maui = new GeoLocation(20.97, -156.83);
+	private static GeoLocation losangeles = new GeoLocation( 33.93, -118.40);
+	
+//	static final LatLng PHILADELPHIA = new LatLng(39.9522, -75.1642);
+	
+	private static GeoLocation[] dummyLocations = {philly, newyork, atlanta, maui, losangeles};
+	
 
 
 	/*
@@ -76,6 +88,7 @@ public class TweetReader {
 		Query query = new Query(about);
 		query.setRpp(20);
 
+
 		Log.d(TAG, "We want tweets related to: " + about);
 		
 		QueryResult result = null;
@@ -91,16 +104,24 @@ public class TweetReader {
 			int numJobs = tweets.size();
 
 			mTweets = new String[numJobs];
-			mLocations = new String[numJobs];
+			mLocations = new GeoLocation[numJobs];
 
 			for (int i = 0; i < numJobs; i++) {
 				Tweet t = (Tweet) tweets.get(i);
 				mTweets[i] = t.getText();
 				GeoLocation location = t.getGeoLocation();
-				if(location != null)
-					mLocations[i] = t.getGeoLocation().toString();
-				else
-					mLocations[i] = "a long time ago in a galaxy far, far away....";
+				
+				if(location != null){
+					mLocations[i] = t.getGeoLocation();
+					Log.d(TAG, "Found one with a location!");
+				}
+				else{
+					int rand  = (int)(Math.random()*(4));
+							
+					mLocations[i] = dummyLocations[rand];
+//					Log.d(TAG, "The random one we chose is:" + rand);
+					Log.d(TAG, "This has no location :(");
+				}
 
 				JSONObject object = new JSONObject();
 
@@ -126,49 +147,6 @@ public class TweetReader {
 
 
 
-	/**
-	 * Method that converts a list of Status' to a JSON array that can be displayed by the grid view
-	 * @param statuses
-	 * @return
-	 */
-	private static ArrayList<JSONObject> convertTimelineToJson(List<Status> statuses) {
-
-		int numJobs = statuses.size();
-
-		mTweets = new String[numJobs];
-		mLocations = new String[numJobs];
-		int i = 0;
-
-		try {
-			if (statuses.size() > 0) {
-				for (Status s : statuses) {
-					JSONObject object = new JSONObject();
-
-					mTweets[i]       = s.getText();
-					mLocations[i]  = s.getUser().getLocation();
-					i++;
-
-					object.put("tweet", s.getText());
-					object.put("tweetDate", Utility.getDateDifference(s.getCreatedAt()));
-					object.put("author", s.getUser().getName());
-
-
-					JOBS.add(object);	
-				}
-			}else{
-				JSONObject object = new JSONObject();
-				object.put("tweet", "You have not logged in yet! Please log on to view latest tweets");
-				object.put("author", "");
-				JOBS.add(object);
-			}
-
-		} catch (JSONException e1) {
-			Log.e("JSON", "There was an error creating the JSONObject", e1);
-		}
-
-		return JOBS;
-	}
-
 	public static String[] getTweets() {
 		return mTweets;
 	}
@@ -177,7 +155,7 @@ public class TweetReader {
 		return JOBS;
 	}
 
-	public static String[] getLocations() {
+	public static GeoLocation[] getLocations() {
 		return mLocations;
 	}
 }

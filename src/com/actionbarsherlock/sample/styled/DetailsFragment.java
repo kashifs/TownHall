@@ -1,5 +1,6 @@
 package com.actionbarsherlock.sample.styled;
 
+import twitter4j.GeoLocation;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -53,12 +54,12 @@ public class DetailsFragment extends SherlockFragment {
 		int index = getShownIndex();
 		
 		
-		String[] locations = TweetReader.getLocations();
+		GeoLocation[] locations = TweetReader.getLocations();
 
 		if(locations[index] == null)
 			text.setText((index + 1) + ".)" + " This tweet is from " + holder);
 		else
-			text.setText((index + 1) + ".)" + " This tweet came from " + locations[index]);
+			text.setText((index + 1) + ".)" + " This tweet came from " + locations[index].toString());
 		return scroller;
 	}
 }

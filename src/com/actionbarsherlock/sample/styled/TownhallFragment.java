@@ -2,7 +2,6 @@ package com.actionbarsherlock.sample.styled;
 
 import java.util.List;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import twitter4j.Twitter;
@@ -160,8 +159,14 @@ public class TownhallFragment extends SherlockListFragment {
 			// Otherwise we need to launch a new activity to display
 			// the dialog fragment with selected text.
 			Intent intent = new Intent();
-			intent.setClass(getActivity(), DetailsActivity.class);
-			intent.putExtra("index", index);
+//			intent.setClass(getActivity(), DetailsActivity.class);
+			intent.setClass(getActivity(), MapActivity.class);
+			
+			double mLat = TweetReader.getLocations()[index].getLatitude();
+			double mLong = TweetReader.getLocations()[index].getLongitude();
+			intent.putExtra("mLat", mLat);
+			intent.putExtra("mLong", mLong);
+			
 			startActivity(intent);
 		}
 	}
