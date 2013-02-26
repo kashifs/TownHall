@@ -1,6 +1,7 @@
 package com.actionbarsherlock.sample.styled;
 
 
+import twitter4j.GeoLocation;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,43 +15,70 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends Activity {
-  static final LatLng PHILADELPHIA = new LatLng(39.9522, -75.1642);
-  private GoogleMap map;
+	private static final LatLng PHILADELPHIA = new LatLng(39.9522, -75.1642);
+	private static GeoLocation atlanta = new GeoLocation(33.65, -84.42);
+	private GoogleMap map;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    Bundle bundle = getIntent().getExtras();
-    double mLat = bundle.getDouble("mLat");
-    double mLong = bundle.getDouble("mLong");
-    setContentView(R.layout.map_layout);
-    map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-        .getMap();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Bundle bundle = getIntent().getExtras();
+		double mLat = bundle.getDouble("mLat");
+		double mLong = bundle.getDouble("mLong");
+		setContentView(R.layout.map_layout);
+		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+				.getMap();
 
-    LatLng myLocation = new LatLng(mLat, mLong);
-        
-    Marker marker = map.addMarker(new MarkerOptions()
-    .position(myLocation) //.position(PHILADELPHIA)
-    .title("Philly")
-    .snippet("Home Sweet Home")
-    .icon(BitmapDescriptorFactory.fromResource(R.drawable.target)));
-    
-    
+		LatLng myLocation = new LatLng(mLat, mLong);
 
-    // Move the camera instantly to philadelphia with a zoom of 13.
-//    map.moveCamera(CameraUpdateFactory.newLatLngZoom(PHILADELPHIA, 13));
-    
-    map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
 
-    // Zoom in, animating the camera.
-//    map.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
-    
-  }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.main_menu, menu);
-    return true;
-  }
+
+		//    Marker marker = map.addMarker(new MarkerOptions()
+		//    .position(myLocation) //.position(PHILADELPHIA)
+		//    .title("Philly")
+		//    .snippet("Home Sweet Home")
+		//    .icon(BitmapDescriptorFactory.fromResource(R.drawable.target)));
+
+		GeoLocation[] mLocations = TweetReader.getLocations();
+		String[] mTweets = TweetReader.getTweets();
+		int numLocations = mLocations.length;
+
+		for(int i = 0; i < numLocations; i++ ) {
+
+			if (mLocations[i] == atlanta)
+				continue;
+
+			map.addMarker(new MarkerOptions()
+			.position(new LatLng(mLocations[i].getLatitude(), mLocations[i].getLongitude()))
+			.title("Philly")
+			.snippet(mTweets[i])
+			.icon(BitmapDescriptorFactory.fromResource(R.drawable.target)));
+		}
+
+
+
+		//    marker.setDraggable(true);
+
+
+
+
+
+
+		// Move the camera instantly to philadelphia with a zoom of 13.
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(PHILADELPHIA, 15));
+
+		//		map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
+
+		// Zoom in, animating the camera.
+		//    map.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main_menu, menu);
+		return true;
+	}
 
 } 
