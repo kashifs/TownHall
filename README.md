@@ -1,13 +1,3 @@
-ActionBarSherlock Sample: Styled
+Townhall
 ================================
-
-See [actionbarsherlock.com/samples.html][1] for information on the sample
-contained in this folder.
-
-
-
-
-
-
-
- [1]: http://actionbarsherlock.com/samples.html
+This is a simple app that maps all the geotagged tweets about a particular topic.
