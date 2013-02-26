@@ -6,10 +6,13 @@ import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
-import twitter4j.http.AccessToken;
+import twitter4j.auth.AccessToken;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ public class AuthActivity extends Activity {
 	private String CONSUMER_KEY =           Constants.CONSUMER_KEY;
 	private String CONSUMER_SECRET =        Constants.CONSUMER_SECRET;
 	private String CALLBACK_URL =           "callback://tweeter";
+	private static Location loc;
 
 	
 	private Button buttonLogin;
@@ -38,6 +42,13 @@ public class AuthActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		System.setProperty("http.keepAlive", "false");
 		super.onCreate(savedInstanceState);
+		
+		
+		LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		String locationProvider = LocationManager.NETWORK_PROVIDER;
+		loc = mlocManager.getLastKnownLocation(locationProvider);
+		
+		Log.d(TAG, "My current location is: " + loc.getLatitude());
 		
 
 		//check for saved log in details..
@@ -57,6 +68,10 @@ public class AuthActivity extends Activity {
 		});
 	}
 
+	public static Location getLocation(){
+		return loc;
+	}
+	
 
 	
 	private void checkForSavedLogin() {

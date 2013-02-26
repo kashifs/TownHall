@@ -1074,7 +1074,8 @@ containing a value of this type.
         public static final int selected_background=0x7f02008b;
         public static final int spinner_default_holo_light=0x7f02008c;
         public static final int spinner_disabled_holo_light=0x7f02008d;
-        public static final int thlogo=0x7f02008e;
+        public static final int target=0x7f02008e;
+        public static final int thlogo=0x7f02008f;
     }
     public static final class id {
         public static final int ButtonLogin=0x7f040040;

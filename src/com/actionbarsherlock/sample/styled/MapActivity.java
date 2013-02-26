@@ -28,26 +28,23 @@ public class MapActivity extends Activity {
         .getMap();
 
     LatLng myLocation = new LatLng(mLat, mLong);
-    
-//    Marker kiel = map.addMarker(new MarkerOptions()
-//        .position(PHILADELPHIA)
-//        .title("Philly")
-//        .snippet("Home Sweet Home")
-//        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon)));
-    
-    Marker kiel = map.addMarker(new MarkerOptions()
-    .position(myLocation)
+        
+    Marker marker = map.addMarker(new MarkerOptions()
+    .position(myLocation) //.position(PHILADELPHIA)
     .title("Philly")
     .snippet("Home Sweet Home")
-    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon)));
+    .icon(BitmapDescriptorFactory.fromResource(R.drawable.target)));
+    
+    
 
     // Move the camera instantly to philadelphia with a zoom of 13.
 //    map.moveCamera(CameraUpdateFactory.newLatLngZoom(PHILADELPHIA, 13));
     
-    map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 13));
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
 
     // Zoom in, animating the camera.
 //    map.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
+    
   }
 
   @Override

@@ -294,7 +294,8 @@ int drawable rounded_rect 0x7f02008a
 int drawable selected_background 0x7f02008b
 int drawable spinner_default_holo_light 0x7f02008c
 int drawable spinner_disabled_holo_light 0x7f02008d
-int drawable thlogo 0x7f02008e
+int drawable target 0x7f02008e
+int drawable thlogo 0x7f02008f
 int id ButtonLogin 0x7f040040
 int id abs__action_bar 0x7f040025
 int id abs__action_bar_container 0x7f040024
