@@ -83,7 +83,8 @@ public class PostStatusActivity extends Activity {
 			try {
 				Log.d(TAG, mTwitter.getAccountSettings().toString());
 
-				AccountSettings settings = mTwitter.getAccountSettings();
+				
+//				AccountSettings settings = mTwitter.getAccountSettings();
 				
 				mTwitter.updateStatus(params[0]);
 
