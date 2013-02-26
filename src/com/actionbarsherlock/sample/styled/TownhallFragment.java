@@ -64,24 +64,7 @@ public class TownhallFragment extends SherlockListFragment {
 			public void handleMessage(Message msg) {
 				
 				imageAndTexts = TweetReader.getJobs();
-				
-//				if(imageAndTexts == null){
-//					JSONObject object = new JSONObject();
-//
-//					try {
-//						object.put("tweet", "Please Refresh");
-//						object.put("tweetDate", "Please Refresh");
-//						object.put("author", "Please Refresh");
-//					} catch (JSONException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//					
-//
-//					imageAndTexts.add(object);	
-//				}
-//					
-					
+						
 
 
 				setListAdapter(
@@ -159,7 +142,6 @@ public class TownhallFragment extends SherlockListFragment {
 			// Otherwise we need to launch a new activity to display
 			// the dialog fragment with selected text.
 			Intent intent = new Intent();
-//			intent.setClass(getActivity(), DetailsActivity.class);
 			intent.setClass(getActivity(), MapActivity.class);
 			
 			double mLat = TweetReader.getLocations()[index].getLatitude();

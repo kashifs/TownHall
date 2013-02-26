@@ -20,7 +20,7 @@ public class TweetReader {
 	private static final String TAG = "TweetReader";
 
 	private static ArrayList<JSONObject> JOBS;
-	private static String[] mTweets;
+	private static String[] mTweets, mUsers;
 	private static GeoLocation[] mLocations;
 
 	private static GeoLocation philly = new GeoLocation(39.9522, -75.1642);
@@ -90,12 +90,15 @@ public class TweetReader {
 				int numJobs = tweets.size();
 
 				mTweets = new String[numJobs];
+				mUsers = new String[numJobs];
 				mLocations = new GeoLocation[numJobs];
+				
 
 
 				for (int i = 0; i < numJobs; i++) {
 					Status t = (Status) tweets.get(i);
 					mTweets[i] = t.getText();
+					mUsers[i] = t.getUser().getName();
 
 					GeoLocation location = t.getGeoLocation();
 
@@ -144,7 +147,11 @@ public class TweetReader {
 	public static String[] getTweets() {
 		return mTweets;
 	}
-
+	
+	public static String[] getUsers() {
+		return mUsers;
+		
+	}
 	public static ArrayList<JSONObject> getJobs() {
 		return JOBS;
 	}

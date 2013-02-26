@@ -42,30 +42,33 @@ public class MapActivity extends Activity {
 
 		GeoLocation[] mLocations = TweetReader.getLocations();
 		String[] mTweets = TweetReader.getTweets();
+		String[] mUsers = TweetReader.getUsers();
 		int numLocations = mLocations.length;
+		double lat, lng;
 
 		for(int i = 0; i < numLocations; i++ ) {
 
-			if (mLocations[i] == atlanta)
+			lat = mLocations[i].getLatitude();
+			lng = mLocations[i].getLongitude();
+			
+			if ((lat == atlanta.getLatitude())
+					&& (lng == atlanta.getLongitude()))
 				continue;
 
 			map.addMarker(new MarkerOptions()
-			.position(new LatLng(mLocations[i].getLatitude(), mLocations[i].getLongitude()))
-			.title("Philly")
+			.position(new LatLng(lat, lng))
+			.title(mUsers[i])
 			.snippet(mTweets[i])
 			.icon(BitmapDescriptorFactory.fromResource(R.drawable.target)));
 		}
 
 
 
-		//    marker.setDraggable(true);
 
 
 
 
-
-
-		// Move the camera instantly to philadelphia with a zoom of 13.
+		// Move the camera instantly to philadelphia with a zoom of 15.
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(PHILADELPHIA, 15));
 
 		//		map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));

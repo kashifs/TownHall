@@ -142,8 +142,8 @@ implements ActionBar.TabListener {
 		mPosition = tab.getPosition();
 
 
-		DetailsFragment profile = 
-				(DetailsFragment) fm.findFragmentByTag("profile");
+		ProfileFragment profile = 
+				(ProfileFragment) fm.findFragmentByTag("profile");
 		TownhallFragment townhall = 
 				(TownhallFragment) fm.findFragmentByTag("townhall");
 		FilterFragment filter = 
@@ -153,8 +153,8 @@ implements ActionBar.TabListener {
 		switch (mPosition) { 
 		case 0:
 
-			DetailsFragment newProfile = 
-			DetailsFragment.newInstance((int)(Math.random()*19)); 
+			ProfileFragment newProfile = 
+			ProfileFragment.newInstance((int)(Math.random()*19)); 
 
 			if(profile != null)
 				fm.beginTransaction().remove(profile).commit();
@@ -219,8 +219,8 @@ implements ActionBar.TabListener {
 		mPosition = tab.getPosition();
 
 
-		DetailsFragment profile = 
-				(DetailsFragment) fm.findFragmentByTag("profile");
+		ProfileFragment profile = 
+				(ProfileFragment) fm.findFragmentByTag("profile");
 		TownhallFragment townhall = 
 				(TownhallFragment) fm.findFragmentByTag("townhall");
 		FilterFragment filter = 
